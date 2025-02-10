@@ -1,7 +1,6 @@
-import {object, string,decimal ,number ,boolean } from 'valibot'
+import {object, string ,number } from 'valibot'
 
 export const DraftOrderSchema=object({
-    customerName: string(),
-    totalAmount: number(),
-    status: boolean(),
+    CustomerName: string(),
+    TotalAmount: number(),
 })

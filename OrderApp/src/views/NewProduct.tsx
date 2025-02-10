@@ -1,9 +1,15 @@
 import React from "react";
-import { ActionFunctionArgs, Form, Link } from "react-router-dom";
+
+import { ActionFunctionArgs, Form, Link, redirect, useActionData } from "react-router-dom";
+import ErrorMessage from "../components/ErrorMessage";
+import { addProduct } from "../services/ProductOrderService";
+
 
 export async function action({ request }: ActionFunctionArgs) {
+
   const data = Object.fromEntries(await request.formData());
   let error = "";
+  
   if (Object.values(data).includes("")) {
     error = "Todos los campos son obligatorios";
   }
@@ -11,11 +17,15 @@ export async function action({ request }: ActionFunctionArgs) {
     return error;
   }
   await addProduct(data);
+console.log(data);
 
   return redirect("/");
 }
 
 export default function NewProduct() {
+
+  const error = useActionData() as string
+
   return (
     <div>
       <div className="flex justify-between">
@@ -29,6 +39,9 @@ export default function NewProduct() {
           Volver al listado
         </Link>
       </div>
+
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+
       <Form className="mt-10" method="POST">
         <div className="mb-4">
           <label className="text-gray-800" htmlFor="name">
@@ -49,6 +62,8 @@ export default function NewProduct() {
           <input
             id="TotalAmount"
             type="number"
+            step="0.01" 
+            min="0"
             className="mt-2 block w-full p-3 bg-gray-50"
             placeholder="Precio Producto. ej. 200, 300"
             name="TotalAmount"

@@ -1,13 +1,19 @@
-import { ActionFunctionArgs, Link, useLoaderData } from "react-router-dom";
+import { ActionFunctionArgs, Link, redirect, useLoaderData } from "react-router-dom";
+import { value } from "valibot";
 
 export async function loader() {
   return {};
 }
 
+
+
 // export async function action({request} : ActionFunctionArgs) {
-//     const data = Object.fromEntries(await request.formData())
-//     await updateProductAvailability(+data.id)
-//     return {}
+//   const data = Object.fromEntries(await request.formData())
+//   let error='';
+//   if(Object value(data)..id !== undefined) {
+//       await deleteProduct(+params.id)
+//       return redirect('/')
+//   }
 // }
 
 export default function Products() {
@@ -40,3 +46,8 @@ export default function Products() {
     </>
   );
 }
+
+// function deleteProduct(arg0: number) {
+//   throw new Error("Function not implemented.");
+// }
+
