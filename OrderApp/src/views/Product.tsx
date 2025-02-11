@@ -1,12 +1,14 @@
 import { ActionFunctionArgs, Link, redirect, useLoaderData } from "react-router-dom";
 import { value } from "valibot";
+import { getProducts } from "../services/ProductOrderService";
+import ProductDetails from "../components/ProductDetail";
+import { Product } from "../types";
 
 export async function loader() {
-  return {};
+  const products = await getProducts()
+  
+  return products
 }
-
-
-
 // export async function action({request} : ActionFunctionArgs) {
 //   const data = Object.fromEntries(await request.formData())
 //   let error='';
@@ -17,6 +19,10 @@ export async function loader() {
 // }
 
 export default function Products() {
+
+  const products = useLoaderData() 
+
+
   return (
     <>
       <div className="flex justify-between">
@@ -43,6 +49,19 @@ export default function Products() {
           <tbody></tbody>
         </table>
       </div>
+      <div className="p-2">
+  <table className="w-full mt-5 table-auto">
+
+    <tbody>
+    {products.map( product => (
+        <ProductDetails
+          key={product.id}
+          product={product}
+        />
+      ))}
+    </tbody>
+  </table>
+</div>
     </>
   );
 }
