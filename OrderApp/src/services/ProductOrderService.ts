@@ -1,30 +1,32 @@
 import axios from "axios";
-import {  safeParse } from "valibot";
-import { DraftOrderSchema, Order, ProductSchema, ProductSchemaMinimum, ProductsShema, } from "../types/index";
+import { safeParse } from "valibot";
+import { DraftOrderNewSchema, Order, ProductSchema, ProductSchemaMinimum, ProductsShema, } from "../types/index";
 
 type ProductData = {
     [k: string]: FormDataEntryValue;
 }
 export async function addProduct(data: ProductData) {
+   
+        const result = safeParse(DraftOrderNewSchema, {
+            CustomerName: data.CustomerName,
+            TotalAmount: +data.TotalAmount,
+            OrderDate: data.OrderDate
+        })
+      
+        if (result.success) {
+            const url = `${import.meta.env.VITE_API_URL}/api/orders`
 
-    const result = safeParse(DraftOrderSchema, {
-        CustomerName: data.CustomerName,
-        TotalAmount: +data.TotalAmount
-    })
-
-    if (result.success) {
-        const url = `${import.meta.env.VITE_API_URL}/api/orders`
-
-        const { data } = await axios.post(url, {
-            'Order': {
-                CustomerName: result.output.CustomerName,
-                TotalAmount: result.output.TotalAmount
-            }
-        });
-    } else {
-        throw new Error('Datos no válidos')
-    }
+            await axios.post(url, {
+                'Order': {
+                    CustomerName: result.output.CustomerName,
+                    TotalAmount: result.output.TotalAmount,
+                    OrderDate: result.output.OrderDate
+                }
+            });
+        }
+   
 }
+
 export async function getProducts() {
     try {
         const url = `${import.meta.env.VITE_API_URL}/api/orders`
@@ -61,9 +63,6 @@ export async function getProductById(id: ProductData['id']) {
 }
 
 export async function updateOrder(order: ProductData, id: Order['id']) {
-
-    try {
-
         const result = safeParse(ProductSchemaMinimum, {
             id: id,
             customerName: order.CustomerName,
@@ -81,8 +80,5 @@ export async function updateOrder(order: ProductData, id: Order['id']) {
                 }
             });
         }
-
-    } catch (error) {
-        console.log(error)
-    }
+   
 }

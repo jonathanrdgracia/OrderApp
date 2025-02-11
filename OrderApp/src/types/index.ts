@@ -6,6 +6,12 @@ export const DraftOrderSchema = object({
     TotalAmount: number(),
 })
 
+export const DraftOrderNewSchema = object({
+    CustomerName: string(),
+    OrderDate: string(),
+    TotalAmount: number(),
+})
+
 export const ProductSchema = object({
     id: number(),
     customerName: string(),

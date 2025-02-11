@@ -20,30 +20,35 @@ export async function loader({ params }: LoaderFunctionArgs) {
     if (!order) {
       return redirect("/");
     }
-    
+
     return order;
   }
 }
 
-export async function action({ request,params }: ActionFunctionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const data = Object.fromEntries(await request.formData());
   let error = "";
 
   if (Object.values(data).includes("")) {
     error = "Todos los campos son obligatorios";
   }
-  if(error.length) {
-    return error
-}
-  if(params.id !== undefined) {
-
-  await updateOrder(data,+params.id);
+  if (error.length) {
+    return error;
   }
+  try {
+    if (params.id !== undefined) {
+      await updateOrder(data, +params.id);
+    }
+  } catch (errorHandler: any) {
+    
+    return redirect(`/order/${params.id}/edit`);
+  }
+  
   return redirect("/");
 }
 
 export default function EditProduct() {
-  const order = useLoaderData() as Order
+  const order = useLoaderData() as Order;
   const error = useActionData() as string;
 
   return (
