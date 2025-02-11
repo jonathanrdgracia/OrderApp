@@ -10,7 +10,7 @@ import {
   useLoaderData,
 } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
-import { addProduct, getProductById, updateOrder } from "../services/ProductOrderService";
+import { getProductById, updateOrder } from "../services/ProductOrderService";
 import { Order } from "../types";
 
 export async function loader({ params }: LoaderFunctionArgs) {

@@ -1,7 +1,6 @@
 import axios from "axios";
-import { date, number, safeParse, string } from "valibot";
+import {  safeParse } from "valibot";
 import { DraftOrderSchema, Order, ProductSchema, ProductSchemaMinimum, ProductsShema, } from "../types/index";
-import Product from "../views/Product";
 
 type ProductData = {
     [k: string]: FormDataEntryValue;
@@ -64,36 +63,28 @@ export async function getProductById(id: ProductData['id']) {
 export async function updateOrder(order: ProductData, id: Order['id']) {
 
     try {
-        console.log('ProductSchema',ProductSchema);
-        
+        console.log('ProductSchema', ProductSchema);
+
         const result = safeParse(ProductSchemaMinimum, {
             id: id,
             customerName: order.CustomerName,
             totalAmount: +order.TotalAmount
         })
-        console.log('result',result);
-        
+        console.log('result', result);
 
         if (result.success) {
-            const url = `${import.meta.env.VITE_API_URL}/api/order/${id}`
+            const url = `${import.meta.env.VITE_API_URL}/api/order`
             await axios.put(url, {
                 'Order': {
+                    Id: result.output.id,
                     CustomerName: result.output.customerName,
-                    TotalAmount: result.output.customerName
+                    TotalAmount: result.output.totalAmount
+
                 }
             });
         }
 
-        // if (result.success) {
-        //     return result.output
-
-        // } else {
-        //     throw new Error('Hubo un error...')
-        // }
     } catch (error) {
         console.log(error)
     }
-
-
-
 }
