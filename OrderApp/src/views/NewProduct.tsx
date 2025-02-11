@@ -62,7 +62,7 @@ export default function NewProduct() {
             id="CustomerName"
             type="text"
             className="mt-2 block w-full p-3 bg-gray-50"
-            placeholder="Nombre del Producto"
+            placeholder="Nombre del Consumidor"
             name="CustomerName"
           />
         </div>
