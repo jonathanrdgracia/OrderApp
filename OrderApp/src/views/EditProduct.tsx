@@ -70,7 +70,7 @@ export default function EditProduct() {
             type="text"
             defaultValue={order.customerName}
             className="mt-2 block w-full p-3 bg-gray-50"
-            placeholder="Nombre del Producto"
+            placeholder="Nombre del Consumidor"
             name="CustomerName"
           />
         </div>

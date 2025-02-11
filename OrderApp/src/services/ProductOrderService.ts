@@ -63,14 +63,12 @@ export async function getProductById(id: ProductData['id']) {
 export async function updateOrder(order: ProductData, id: Order['id']) {
 
     try {
-        console.log('ProductSchema', ProductSchema);
 
         const result = safeParse(ProductSchemaMinimum, {
             id: id,
             customerName: order.CustomerName,
             totalAmount: +order.TotalAmount
         })
-        console.log('result', result);
 
         if (result.success) {
             const url = `${import.meta.env.VITE_API_URL}/api/order`
